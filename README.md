@@ -1,106 +1,209 @@
-# Projeto Salesforce - Gestão de Patrocínios para Pilotos de Corrida
+Projeto Salesforce: Gerenciamento de Patrocínios
 
-## Visão Geral
-Este projeto simula a implementação de uma solução Salesforce para gerenciar patrocinadores, pilotos, oportunidades de patrocínio e processos relacionados, com foco em funcionalidades relevantes para aprendizado da Plataforma.
+📦 Visão Geral
 
-A solução utiliza objetos padrão como Account, Contact e Opportunity, além de objetos personalizados como Patrocinio.
+Este projeto simula um ambiente Salesforce voltado ao gerenciamento de patrocínios esportivos, utilizando Account (como Patrocinador), Contact (como Piloto), Opportunity (como oportunidades de patrocínio) e o objeto personalizado Patrocinio.
 
-## Estrutura do Projeto
-### Objetos Utilizados
-- **Account**: representa o patrocinador
-- **Contact**: representa o piloto
-- **Opportunity**: representa uma oportunidade de patrocínio
-- **Patrocinio (Custom Object)**: liga uma oportunidade aprovada a um piloto
+Seu principal objetivo é modelar regras de negócio complexas, integrações, automações e componentes reutilizáveis dentro de uma org de desenvolvedor, com versionamento e colaboração no GitHub, simulando um pipeline DevOps manual.
 
-### Campos Personalizados e Fórmulas
-- Campos personalizados nos objetos Account, Contact, Opportunity e Patrocinio
-- Fórmula de **idade** no Contact
-- Fórmula de **valor disponível** na Account
+🗂 Estrutura do Projeto por Tópico
 
-### Picklists Personalizadas
-- **Ramo de atuação** (Account)
-- **Setor do patrocinador** (Account)
-- **País do piloto** (Contact)
+📘 Objetos e Campos
 
-## Funcionalidades Desenvolvidas
+Objetos Utilizados:
 
-### Componentes Lightning (LWC)
-- Componente de **Permission Set** (funcionalidade para gestão de permissões)
-- **Componente de pilotos ativos**
-- Disponibilização do componente na Home
+Account: Patrocinador
 
-### Experiência do Usuário
-- Criação de **Guias** e **Aplicativo Personalizado**
-- **Layouts e Lightning Pages** por perfil/objeto
-- **Quick Action**: Comprovante de Patrocínio
-- **Tela de divisão de patrocínio**
+Contact: Piloto
 
-### Lógicas e Regras de Negócio
-#### Validation Rules
-- Piloto ativo sem equipe
-- Piloto inativo não pode receber patrocínio
-- E-mail duplicado para piloto
-- Valor da oportunidade maior que valor disponível
-- Valor total de patrocínio menor que o valor na oportunidade
-- Oportunidade marcada como "Fechada e Perdida"
-- Criação de patrocínio sem oportunidade "Fechada e Ganha"
-- Valor do patrocínio maior que o valor da oportunidade
-- Data de fechamento inválida na oportunidade
+Opportunity: Oportunidade de Patrocínio
 
-#### Apex
-- Trigger: impedir que um piloto já patrocinado receba novo patrocínio
-- Classe de envio de e-mail com informações customizadas
-- Validação de CPF duplicado via Apex
-- **Classes de Teste** para cada classe (reservar espaço aqui para inserir depois)
+Patrocinio (Custom Object)
 
-#### Automação
-- Flow Trigger: atualização automática do status da oportunidade
-- Screen Flow: onboarding de nova conta
-- Flow: envio automático de e-mail ao criar um novo contato
-- Ação administrativa: reatribuição em massa de contas
-- Processo de aprovação da oportunidade com notificação de aprovação
+Campos Personalizados e Fórmulas:
 
-#### Batch Apex
-- Inativação de patrocínios antigos
+Account
 
-### Integrações
-- Integração com API pública da Fórmula 1 (exibição de dados em tela ou armazenamento em objeto customizado)
+Campo de picklist: Setor do Patrocinador
 
-## Simulação Manual de DevOps
+Fórmula: Valor Disponível (relacionado às oportunidades e patrocínios)
 
-Como DevOps Center não será utilizado, o processo de versionamento será feito de forma **manual** com uso de GitHub, seguindo os passos abaixo:
+Contact
 
-### Processo Manual
-1. Desenvolvimento local na Org com Scratch Org ou Sandbox
-2. Commit de alterações locais via SFDX:
-   ```bash
-   git add .
-   git commit -m "feat: adiciona fluxo de onboarding de conta"
-   git push origin main
-   ```
-3. Controle de permissões com **Permission Sets**
-4. Controle de versões de metadata somente com arquivos relevantes, **sem versionamento do metadata completo**
+Campo de picklist: País do Piloto
 
-## Modelo de Dados
+Fórmula: Idade (a partir da data de nascimento)
 
-### Objetos e Relacionamentos
-- **Account (Patrocinador)** - padrão
-- **Contact (Piloto)** - padrão
-- **Opportunity (Oportunidade de Patrocínio)** - padrão
-- **Patrocinio** (custom object)
-  - Lookup para Piloto
-  - Lookup para Oportunidade
+Patrocinio
 
-## Planejamento Futuro
-- Adicionar permissionamento por perfil e permission set group
-- Criar testes automatizados para flows e validações
-- Melhorar UX com Dynamic Forms e Visibility Rules
-- Expandir integração com outras APIs esportivas
-- Criar painel executivo de análise de desempenho
+Valor do patrocínio
 
-## Referências Úteis
-- [Trailhead - Lightning App Builder](https://trailhead.salesforce.com/en/content/learn/modules/lightning-app-builder)
-- [Trailhead - Apex Testing](https://trailhead.salesforce.com/en/content/learn/modules/apex_testing)
-- [Salesforce Dev Docs](https://developer.salesforce.com/docs)
-- [API Pública F1](https://ergast.com/mrd/)
+Opportunity
+
+Campo de validação: Valor maior que disponível
+
+🔐 Validações e Regras de Negócio
+
+Piloto ativo deve estar vinculado a uma equipe
+
+Piloto inativo não pode estar vinculado a patrocínio
+
+E-mail duplicado para contatos do tipo piloto
+
+Oportunidade maior que valor disponível
+
+Valor total menor que valor patrocinado
+
+Impedir criação de patrocínio se a oportunidade não estiver fechada e ganha
+
+Valor de patrocínio maior que valor da oportunidade
+
+Validação de CPF duplicado via Apex
+
+Data de fechamento inválida (validation rule)
+
+⚙️ Automação (Flows, Apex e Processos)
+
+Flows:
+
+Flow Trigger: Atualização automática de status em oportunidades
+
+Screen Flow: Onboarding de nova conta
+
+Flow: Envio automático de e-mail ao criar novo contato
+
+Apex:
+
+Envio de e-mail com informações customizadas
+
+Batch de inativação de patrocínios antigos
+
+Trigger: Impedir que piloto já patrocinado receba novo patrocínio
+
+Quick Actions:
+
+Comprovante de patrocínios
+
+Tela de divisão de patrocínio
+
+Ação Admin de reatribuição em massa de contas
+
+📊 Relatórios e Dashboards
+
+Relatórios por status, valor e data dos patrocínios
+
+Painel de visualização para patrocinadores
+
+🧩 Componentes LWC
+
+LWC: Exibição dinâmica de Permission Set Groups por campo (funcionalidade avulsa, não é o projeto em si)
+
+LWC: Pilotos Ativos (disponibilizado na Home Page)
+
+🧱 UI e Layout
+
+Criação de guias personalizadas
+
+Criação de aplicativo personalizado
+
+Customização de layouts de página Lightning por objeto
+
+Atribuição de Lightning Pages
+
+🔁 Integrações
+
+Integração com API pública da Fórmula 1 (consulta de dados externos)
+
+🧪 Testes
+
+Cada classe e trigger terá cobertura de teste em suas respectivas classes
+
+Seção de testes será completada conforme as classes forem adicionadas
+
+🔲 [Reservado para Classes de Teste]
+
+🚀 Versionamento Manual (Simulando DevOps Center)
+
+📁 Estrutura Recomendada no GitHub
+
+├── force-app/
+│   ├── main/
+│   │   ├── default/
+│   │   │   ├── classes/
+│   │   │   ├── lwc/
+│   │   │   ├── objects/
+│   │   │   ├── flows/
+│   │   │   ├── layouts/
+│   │   │   ├── permissionsets/
+│   │   │   ├── tabs/
+│   │   │   ├── applications/
+│   │   │   ├── staticresources/
+
+👥 Controle de Permissões e Colaboração no GitHub
+
+Criar repositório e adicionar colaborador (Settings > Collaborators)
+
+Habilitar branch protection na branch main:
+
+Exigir aprovação de Pull Requests
+
+Exigir revisão obrigatória do dono (ex: lucas.cds1997@gmail.com)
+
+🔄 Ciclo Manual Simulado:
+
+Desenvolvedor faz alterações na org de Dev
+
+Executa sfdx force:source:pull para trazer alterações locais
+
+Cria uma branch e faz commit: feat/validacao-email-piloto
+
+Push para GitHub e abre Pull Request
+
+Owner aprova ou solicita mudanças
+
+PR aprovado = merge na main
+
+📈 Modelo de Dados
+
+Account (Patrocinador)
+
+Nome, Setor, Valor Disponível (fórmula)
+
+Contact (Piloto)
+
+Nome, País, Idade (fórmula), Email
+
+Opportunity
+
+Valor, Status, Data Fechamento, Relacionamento com Patrocínio
+
+Patrocinio (Custom Object)
+
+Valor, Conta relacionada, Piloto, Status
+
+📅 Planejamento Futuro
+
+Substituir trigger de CPF duplicado por validação com Flow
+
+Publicar base de conhecimento do projeto
+
+Criação de classes reutilizáveis para validações genéricas
+
+Painel dinâmico de indicadores para patrocinadores
+
+Criação de documentação técnica HTML com Storybook para os LWC criados
+
+🔗 Referências Úteis
+
+Developer Guide - Salesforce
+
+Salesforce Metadata Coverage
+
+SFDX CLI Commands
+
+VSCode + Salesforce Extension Pack
+
+📌 Projeto mantido por Lucas (lucas.cds1997@gmail.com)
+
+👥 Contribuidor: Nathan (nathannunessp587@gmail.com)
 
